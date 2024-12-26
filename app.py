@@ -85,7 +85,7 @@ def index():
     writings_content = []
     for slug, post in POSTS.items():
         writings_content.append(
-            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["reading_time"]} min read)'
+            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%B %d, %Y")})'
         )
 
     return render_template('index.html', 
