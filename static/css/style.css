@@ -31,13 +31,13 @@ body {
 /* Typography */
 h1, h2 {
     font-weight: 600;
-    margin-bottom: 0.2rem;  /* Even smaller margin */
+    margin-bottom: 0rem;  /* Even smaller margin */
     color: var(--text-color);
 }
 
 h2 {
     font-size: 1.5rem;
-    margin-top: 0.5rem;
+    margin-top: 0rem;
 }
 
 .lead {
@@ -103,7 +103,7 @@ h2 {
 /* Container adjustments */
 .container {
     max-width: 680px;
-    padding: 0 1rem; /* Reduced padding for tighter layout */
+    padding: 0 0rem; /* Reduced padding for tighter layout */
     margin: 0 auto; /*Center container*/
 }
 
@@ -136,6 +136,7 @@ a:hover {
 
 /* Section spacing */
 section {
+    margin-top: 0rem;
     margin-bottom: 1rem;
     padding-bottom: 0;  /* Remove bottom padding */
 }
