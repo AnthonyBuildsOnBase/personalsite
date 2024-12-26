@@ -31,13 +31,13 @@ body {
 /* Typography */
 h1, h2 {
     font-weight: 600;
-    margin-bottom: 1rem;  /* Reduced from 1.5rem */
+    margin-bottom: 0rem;  /* Reduced from 1rem */
     color: var(--text-color);
 }
 
 h2 {
     font-size: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 0rem;
 }
 
 .lead {
@@ -48,7 +48,7 @@ h2 {
 /* Theme toggle */
 .theme-toggle {
     position: fixed;
-    top: 1rem;
+    top: .5rem;
     right: 1rem;
     z-index: 1000;
 }
