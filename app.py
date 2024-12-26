@@ -1,6 +1,9 @@
 import logging
-from flask import Flask, render_template, abort
+import os
 from datetime import datetime
+from flask import Flask, render_template, abort
+import frontmatter
+import markdown
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -15,74 +18,40 @@ def calculate_reading_time(content):
     minutes = round(words / 200)  # Assuming 200 words per minute reading speed
     return max(1, minutes)  # Minimum 1 minute reading time
 
-# Blog posts data
-POSTS = {
-    'minimalism-in-software': {
-        'title': 'Why Minimalism Matters in Software Design',
-        'date': datetime(2024, 12, 1),
-        'tags': ['software design', 'minimalism', 'best practices'],
-        'content': """
-        Minimalism in software design isn't just about aesthetics—it's about clarity, maintainability, and user experience.
+def load_posts():
+    """Load all posts from markdown files."""
+    posts = {}
+    posts_dir = os.path.join('content', 'posts')
 
-        Here are three key principles I follow:
+    # Create posts directory if it doesn't exist
+    os.makedirs(posts_dir, exist_ok=True)
 
-        1. Remove everything that isn't absolutely necessary
-        2. Make what remains as simple as possible
-        3. Focus on the core functionality that users actually need
+    for filename in os.listdir(posts_dir):
+        if filename.endswith('.md'):
+            file_path = os.path.join(posts_dir, filename)
+            with open(file_path, 'r') as f:
+                # Parse front matter and content
+                post = frontmatter.load(f)
 
-        These principles have guided my recent projects and significantly improved their maintainability.
-        """
-    },
-    'flask-website': {
-        'title': 'Building a Personal Website with Flask',
-        'date': datetime(2024, 11, 15),
-        'tags': ['flask', 'python', 'web development'],
-        'content': """
-        Flask's simplicity makes it perfect for personal websites. Here's how I built mine:
+                # Convert content from markdown to HTML
+                html_content = markdown.markdown(post.content)
 
-        • Started with a minimal setup
-        • Used Jinja2 templates for clean HTML
-        • Kept the design simple and focused
-        • Deployed with minimal configuration
+                # Create slug from filename
+                slug = filename[:-3]  # Remove .md extension
 
-        The result? A fast, maintainable site that puts content first.
-        """
-    },
-    'technical-writing': {
-        'title': 'Thoughts on Technical Writing',
-        'date': datetime(2024, 10, 30),
-        'tags': ['writing', 'documentation', 'communication'],
-        'content': """
-        Good technical writing is about clarity and precision. Through my experience, I've learned:
+                # Store post data
+                posts[slug] = {
+                    'title': post.metadata.get('title', 'Untitled'),
+                    'date': datetime.strptime(str(post.metadata.get('date', '2000-01-01')), '%Y-%m-%d'),
+                    'tags': post.metadata.get('tags', []),
+                    'content': html_content,
+                    'reading_time': calculate_reading_time(post.content)
+                }
 
-        • Write for your reader, not yourself
-        • Use simple, direct language
-        • Include relevant examples
-        • Structure content logically
+    return posts
 
-        These principles help make complex topics accessible.
-        """
-    },
-    'system-design': {
-        'title': 'Notes on System Design Principles',
-        'date': datetime(2024, 10, 15),
-        'tags': ['system design', 'architecture', 'best practices'],
-        'content': """
-        Key principles I've learned about system design:
-
-        • Start simple, add complexity only when needed
-        • Design for failure
-        • Make it observable
-        • Consider scalability from day one
-
-        These principles have guided my approach to building robust systems.
-        """
-    }
-}
-
-# Add reading time to each post
-for post in POSTS.values():
-    post['reading_time'] = calculate_reading_time(post['content'])
+# Load posts at startup
+POSTS = load_posts()
 
 @app.route('/')
 def index():
