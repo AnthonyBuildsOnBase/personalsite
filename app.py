@@ -9,6 +9,12 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = "a secret key"  # In production, use environment variable
 
+def calculate_reading_time(content):
+    """Calculate reading time in minutes based on word count."""
+    words = len(content.split())
+    minutes = round(words / 200)  # Assuming 200 words per minute reading speed
+    return max(1, minutes)  # Minimum 1 minute reading time
+
 # Blog posts data
 POSTS = {
     'minimalism-in-software': {
@@ -70,8 +76,18 @@ POSTS = {
     }
 }
 
+# Add reading time to each post
+for post in POSTS.values():
+    post['reading_time'] = calculate_reading_time(post['content'])
+
 @app.route('/')
 def index():
+    writings_content = []
+    for slug, post in POSTS.items():
+        writings_content.append(
+            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["reading_time"]} min read)'
+        )
+
     return render_template('index.html', 
         name="John Doe",
         current={
@@ -115,12 +131,7 @@ def index():
             },
             {
                 "title": "Writings",
-                "content": """
-                • <a href="/posts/minimalism-in-software">Why Minimalism Matters in Software Design</a>
-                • <a href="/posts/flask-website">Building a Personal Website with Flask</a>
-                • <a href="/posts/technical-writing">Thoughts on Technical Writing</a>
-                • <a href="/posts/system-design">Notes on System Design Principles</a>
-                """
+                "content": "\n".join(writings_content)
             }
         ],
         current_date=datetime.now())
