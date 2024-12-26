@@ -20,6 +20,7 @@ POSTS = {
     'minimalism-in-software': {
         'title': 'Why Minimalism Matters in Software Design',
         'date': datetime(2024, 12, 1),
+        'tags': ['software design', 'minimalism', 'best practices'],
         'content': """
         Minimalism in software design isn't just about aesthetics—it's about clarity, maintainability, and user experience.
 
@@ -35,6 +36,7 @@ POSTS = {
     'flask-website': {
         'title': 'Building a Personal Website with Flask',
         'date': datetime(2024, 11, 15),
+        'tags': ['flask', 'python', 'web development'],
         'content': """
         Flask's simplicity makes it perfect for personal websites. Here's how I built mine:
 
@@ -49,6 +51,7 @@ POSTS = {
     'technical-writing': {
         'title': 'Thoughts on Technical Writing',
         'date': datetime(2024, 10, 30),
+        'tags': ['writing', 'documentation', 'communication'],
         'content': """
         Good technical writing is about clarity and precision. Through my experience, I've learned:
 
@@ -63,6 +66,7 @@ POSTS = {
     'system-design': {
         'title': 'Notes on System Design Principles',
         'date': datetime(2024, 10, 15),
+        'tags': ['system design', 'architecture', 'best practices'],
         'content': """
         Key principles I've learned about system design:
 
@@ -84,8 +88,9 @@ for post in POSTS.values():
 def index():
     writings_content = []
     for slug, post in POSTS.items():
+        tags_html = ' '.join(f'<span class="tag">{tag}</span>' for tag in post['tags'])
         writings_content.append(
-            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%B %d, %Y")})'
+            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%B %d, %Y")}) {tags_html}'
         )
 
     return render_template('index.html', 

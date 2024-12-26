@@ -10,6 +10,11 @@
             <p class="text-muted">
                 {{ post.date.strftime('%B %d, %Y') }} · {{ post.reading_time }} min read
             </p>
+            <div class="tags mb-3">
+                {% for tag in post.tags %}
+                <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
         </header>
 
         <div class="content">
