@@ -90,7 +90,7 @@ def index():
     for slug, post in POSTS.items():
         tags_html = ' '.join(f'<span class="tag">{tag}</span>' for tag in post['tags'])
         writings_content.append(
-            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%B %d, %Y")}) {tags_html}'
+            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
 
     return render_template('index.html', 
