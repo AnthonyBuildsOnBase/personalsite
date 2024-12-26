@@ -1,0 +1,74 @@
+/* Base styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
+                 "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Typography */
+h1, h2 {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+}
+
+.lead {
+    font-size: 1.15rem;
+    font-weight: 400;
+}
+
+/* Content styling */
+.content {
+    max-width: 65ch;
+    white-space: pre-line;
+}
+
+/* Container adjustments */
+.container {
+    max-width: 680px;
+    padding: 0 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+/* Links */
+a {
+    color: #333;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+}
+
+a:hover {
+    color: #000;
+}
+
+/* Section spacing */
+section {
+    margin-bottom: 2.5rem;
+}
+
+/* Footer styling */
+footer {
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+}
