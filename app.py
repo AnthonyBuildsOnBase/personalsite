@@ -88,11 +88,11 @@ def index():
                 """
             },
             {
-                "title": "Projects",
+                "title": "Links",
                 "content": """
-                • Personal website - A minimalist approach to personal presence
-                • Task Manager - Simple CLI tool for managing daily tasks
-                • Weather App - Minimalist weather forecasting
+                • <a href="https://github.com/johndoe">GitHub</a>
+                • <a href="https://linkedin.com/in/johndoe">LinkedIn</a>
+                • <a href="https://twitter.com/johndoe">Twitter</a>
                 """
             },
             {
