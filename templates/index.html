@@ -15,9 +15,9 @@
     </header>
 
     {% for section in sections %}
-    <section>
-        <h2>{{ section.title }}</h2>
-        <div class="content">
+    <section class="content-section">
+        <h2 class="section-title">{{ section.title }}</h2>
+        <div class="section-content">
             {{ section.content | safe }}
         </div>
     </section>

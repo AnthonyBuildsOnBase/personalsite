@@ -93,6 +93,28 @@ h2 {
     display: block;
 }
 
+/* Content section styling */
+.content-section {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+.section-content {
+    max-width: 65ch;
+    white-space: pre-line;
+    margin: 0;
+    padding: 0;
+}
+
+
 /* Content styling */
 .content {
     max-width: 65ch;
