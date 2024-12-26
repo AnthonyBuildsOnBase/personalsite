@@ -28,6 +28,15 @@ def index():
                 """
             },
             {
+                "title": "Previously",
+                "content": """
+                • Led backend development for a startup's core product
+                • Worked on scalable microservices architecture
+                • Contributed to open-source Python libraries
+                • Taught programming workshops at local meetups
+                """
+            },
+            {
                 "title": "Projects",
                 "content": """
                 • Personal website - A minimalist approach to personal presence
@@ -41,6 +50,15 @@ def index():
                 • Designing Data-Intensive Applications by Martin Kleppmann
                 • The Pragmatic Programmer by Dave Thomas
                 • Clean Code by Robert C. Martin
+                """
+            },
+            {
+                "title": "Writings",
+                "content": """
+                • Why Minimalism Matters in Software Design
+                • Building a Personal Website with Flask
+                • Thoughts on Technical Writing
+                • Notes on System Design Principles
                 """
             }
         ],
