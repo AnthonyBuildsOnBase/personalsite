@@ -31,13 +31,13 @@ body {
 /* Typography */
 h1, h2 {
     font-weight: 600;
-    margin-bottom: 0.5rem;  /* Reduced vertical spacing */
+    margin-bottom: 0.2rem;  /* Even smaller margin */
     color: var(--text-color);
 }
 
 h2 {
     font-size: 1.5rem;
-    margin-top: 0.5rem; /*Reduced vertical spacing*/
+    margin-top: 0.5rem;
 }
 
 .lead {
@@ -97,6 +97,7 @@ h2 {
 .content {
     max-width: 65ch;
     white-space: pre-line;
+    margin-top: 0;  /* Remove top margin */
 }
 
 /* Container adjustments */
@@ -135,8 +136,8 @@ a:hover {
 
 /* Section spacing */
 section {
-    margin-bottom: 1rem; /*Reduced section spacing*/
-    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0;  /* Remove bottom padding */
 }
 
 /* Footer styling */
