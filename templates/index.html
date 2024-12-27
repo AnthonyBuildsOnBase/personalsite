@@ -10,9 +10,9 @@
             {{ current.location }} · {{ current.role }}
         </p>
         <div class="social-links">
-            <a href="https://github.com/johndoe">GitHub</a> · 
-            <a href="https://linkedin.com/in/johndoe">LinkedIn</a> · 
-            <a href="https://twitter.com/johndoe">Twitter</a>
+            {% for link in current.links %}
+                <a href="{{ link.url }}">{{ link.label }}</a>{% if not loop.last %} · {% endif %}
+            {% endfor %}
         </div>
         <p class="lead">
             {{ current.focus }}
