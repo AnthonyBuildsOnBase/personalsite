@@ -85,9 +85,9 @@ def index():
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [
-                {"label": "GitHub", "url": "https://github.com/johndoe"},
-                {"label": "LinkedIn", "url": "https://linkedin.com/in/johndoe"},
-                {"label": "Twitter", "url": "https://twitter.com/johndoe"}
+                {"label": "GitHub", "url": "https://github.com/AnthonyBuildsOnBase"},
+                {"label": "LinkedIn", "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"},
+                {"label": "Twitter", "url": "https://x.com/0xblockboy"}
             ]
         },
         sections=[{
