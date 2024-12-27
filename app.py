@@ -43,18 +43,13 @@ def load_posts():
 
                 # Store post data
                 posts[slug] = {
-                    'title':
-                    post.metadata.get('title', 'Untitled'),
-                    'date':
-                    datetime.strptime(
+                    'title': post.metadata.get('title', 'Untitled'),
+                    'date': datetime.strptime(
                         str(post.metadata.get('date', '2000-01-01')),
                         '%Y-%m-%d'),
-                    'tags':
-                    post.metadata.get('tags', []),
-                    'content':
-                    html_content,
-                    'reading_time':
-                    calculate_reading_time(post.content)
+                    'tags': post.metadata.get('tags', []),
+                    'content': html_content,
+                    'reading_time': calculate_reading_time(post.content)
                 }
 
     return posts
@@ -69,7 +64,7 @@ def index():
     writings_content = []
     for slug, post in POSTS.items():
         tags_html = ' '.join(f'<span class="tag">{tag}</span>'
-                             for tag in post['tags'])
+                          for tag in post['tags'])
         writings_content.append(
             f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
@@ -78,10 +73,8 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location":
-            "Manhattan, NY",
-            "role":
-            "DeFi Ecosystem Analyst at Base",
+            "location": "Manhattan, NY",
+            "role": "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [
@@ -91,27 +84,21 @@ def index():
             ]
         },
         sections=[{
-            "title":
-            "Now",
-            "content":
-            """
+            "title": "Now",
+            "content": """
                 Working at <a href="https://www.base.org/about?utm_source=dotorg&utm_medium=nav">Base</a> to bring the worlds financial markets onchain.
                 """
         }, {
-            "title":
-            "Previously",
-            "content":
-            """
+            "title": "Previously",
+            "content": """
                 • Led backend development for a startup's core product
                 • Worked on scalable microservices architecture
                 • Contributed to open-source Python libraries
                 • Taught programming workshops at local meetups
                 """
         }, {
-            "title":
-            "Reading",
-            "content":
-            """
+            "title": "Reading",
+            "content": """
                 • Designing Data-Intensive Applications by Martin Kleppmann
                 • The Pragmatic Programmer by Dave Thomas
                 • Clean Code by Robert C. Martin
