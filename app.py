@@ -94,7 +94,7 @@ POSTS = load_posts()
 @app.route('/')
 def index():
     # Get Substack posts
-    substack_posts = load_substack_posts('https://yoursubstack.substack.com')
+    substack_posts = load_substack_posts('https://newontheblock.substack.com')
 
     writings_content = []
 
