@@ -13,4 +13,5 @@ dependencies = [
     "psycopg2-binary>=2.9.10",
     "python-frontmatter>=1.1.0",
     "pyyaml>=5.1",
+    "trafilatura>=2.0.0",
 ]
