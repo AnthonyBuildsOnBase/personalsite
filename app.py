@@ -43,13 +43,18 @@ def load_posts():
 
                 # Store post data
                 posts[slug] = {
-                    'title': post.metadata.get('title', 'Untitled'),
-                    'date': datetime.strptime(
+                    'title':
+                    post.metadata.get('title', 'Untitled'),
+                    'date':
+                    datetime.strptime(
                         str(post.metadata.get('date', '2000-01-01')),
                         '%Y-%m-%d'),
-                    'tags': post.metadata.get('tags', []),
-                    'content': html_content,
-                    'reading_time': calculate_reading_time(post.content)
+                    'tags':
+                    post.metadata.get('tags', []),
+                    'content':
+                    html_content,
+                    'reading_time':
+                    calculate_reading_time(post.content)
                 }
 
     return posts
@@ -64,7 +69,7 @@ def index():
     writings_content = []
     for slug, post in POSTS.items():
         tags_html = ' '.join(f'<span class="tag">{tag}</span>'
-                          for tag in post['tags'])
+                             for tag in post['tags'])
         writings_content.append(
             f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
@@ -73,35 +78,54 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location": "Manhattan, NY",
-            "role": "DeFi Ecosystem Analyst at Base",
+            "location":
+            "Manhattan, NY",
+            "role":
+            "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
-            "links": [
-                {"label": "GitHub", "url": "https://github.com/AnthonyBuildsOnBase"},
-                {"label": "LinkedIn", "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"},
-                {"label": "Twitter", "url": "https://x.com/0xblockboy"}
-            ]
+            "links": [{
+                "label": "GitHub",
+                "url": "https://github.com/AnthonyBuildsOnBase"
+            }, {
+                "label":
+                "LinkedIn",
+                "url":
+                "https://www.linkedin.com/in/anthony-katwan-566675175/"
+            }, {
+                "label": "Twitter",
+                "url": "https://x.com/0xblockboy"
+            }]
         },
         sections=[{
-            "title": "Now",
-            "content": """
+            "title":
+            "Now",
+            "content":
+            """
                 Working at <a href="https://www.base.org/about?utm_source=dotorg&utm_medium=nav">Base</a> to bring the worlds financial markets onchain.
                 """
         }, {
-            "title": "Previously",
-            "content": """
-                • Led backend development for a startup's core product
-                • Worked on scalable microservices architecture
-                • Contributed to open-source Python libraries
-                • Taught programming workshops at local meetups
+            "title":
+            "Previously",
+            "content":
+            """
+                • Web3 research and consulting for enterprises
+                • Business ops and strategy for GTM organizations
+                • DAO contributor and open source development
                 """
         }, {
-            "title": "Reading",
-            "content": """
-                • Designing Data-Intensive Applications by Martin Kleppmann
-                • The Pragmatic Programmer by Dave Thomas
-                • Clean Code by Robert C. Martin
+            "title":
+            "Favorite Readings",
+            "content":
+            """
+                • <a href="https://writings.stephenwolfram.com/2019/06/testifying-at-the-senate-about-a-i-selected-content-on-the-internet/">Testifying at the Senate about A.I.-Selected Content on the Internet</a>
+                • <a href="https://www.ribbonfarm.com/2018/11/28/the-digital-maginot-line/">The Digital Maginot Line</a>
+                • <a href="https://kk.org/thetechnium/1000-true-fans/">1,000 True Fans</a>
+                • <a href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/">Meditations on Moloch</a>
+                • <a href="https://alexdanco.com/2019/09/07/positional-scarcity/">Positional Scarcity</a>
+                • <a href="https://www.jofreeman.com/joreen/tyranny.htm">The Tyranny of Structurelessness</a>
+                • <a href="https://nickbostrom.com/fable/dragon">The Fable of the Dragon-Tyrant</a>
+                • <a href="https://meaningness.com/geeks-mops-sociopaths">Geeks, MOPs, and sociopaths in subculture evolution</a>
                 """
         }, {
             "title": "Writings",
