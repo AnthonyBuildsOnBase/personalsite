@@ -29,11 +29,13 @@ def load_substack_posts(substack_url):
         posts = []
         for entry in feed.entries[:5]:  # Get latest 5 posts
             posts.append({
-                'title': entry.title,
-                'link': entry.link,
-                'date': datetime.fromtimestamp(
-                    mktime(entry.published_parsed)) if hasattr(
-                        entry, 'published_parsed') else datetime.now(),
+                'title':
+                entry.title,
+                'link':
+                entry.link,
+                'date':
+                datetime.fromtimestamp(mktime(entry.published_parsed))
+                if hasattr(entry, 'published_parsed') else datetime.now(),
             })
         return posts
     except Exception as e:
@@ -76,12 +78,17 @@ def load_posts():
 
                 # Store post data
                 posts[slug] = {
-                    'title': metadata.get('title', 'Untitled'),
-                    'date': datetime.strptime(
-                        str(metadata.get('date', '2000-01-01')), '%Y-%m-%d'),
-                    'tags': metadata.get('tags', []),
-                    'content': html_content,
-                    'reading_time': calculate_reading_time(content)
+                    'title':
+                    metadata.get('title', 'Untitled'),
+                    'date':
+                    datetime.strptime(str(metadata.get('date', '2000-01-01')),
+                                      '%Y-%m-%d'),
+                    'tags':
+                    metadata.get('tags', []),
+                    'content':
+                    html_content,
+                    'reading_time':
+                    calculate_reading_time(content)
                 }
 
     return posts
@@ -109,16 +116,20 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location": "Manhattan, NY",
-            "role": "DeFi Ecosystem Analyst at Base",
+            "location":
+            "Manhattan, NY",
+            "role":
+            "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [{
                 "label": "GitHub",
                 "url": "https://github.com/AnthonyBuildsOnBase"
             }, {
-                "label": "LinkedIn",
-                "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"
+                "label":
+                "LinkedIn",
+                "url":
+                "https://www.linkedin.com/in/anthony-katwan-566675175/"
             }, {
                 "label": "Twitter",
                 "url": "https://x.com/0xblockboy"
@@ -155,7 +166,7 @@ def index():
                 • <a href="https://meaningness.com/geeks-mops-sociopaths">Geeks, MOPs, and sociopaths in subculture evolution</a>
                 """
         }, {
-            "title": "Writings",
+            "title": "My Writings",
             "content": "\n".join(writings_content)
         }],
         current_date=datetime.now())

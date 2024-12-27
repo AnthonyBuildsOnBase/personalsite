@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <!-- Large background gear -->
+  <g class="gear-large">
+    <path fill="currentColor" opacity="0.1" d="M400 150c-27.6 0-50-22.4-50-50s22.4-50 50-50 50 22.4 50 50-22.4 50-50 50zm0 600c-27.6 0-50-22.4-50-50s22.4-50 50-50 50 22.4 50 50-22.4 50-50 50zm0-300c-27.6 0-50-22.4-50-50s22.4-50 50-50 50 22.4 50 50-22.4 50-50 50z">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 400 400"
+        to="360 400 400"
+        dur="60s"
+        repeatCount="indefinite"
+      />
+    </path>
+  </g>
+  <!-- Medium gear -->
+  <g class="gear-medium">
+    <path fill="currentColor" opacity="0.08" d="M200 300c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40zm400 0c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 400 400"
+        to="0 400 400"
+        dur="45s"
+        repeatCount="indefinite"
+      />
+    </path>
+  </g>
+  <!-- Small gear -->
+  <g class="gear-small">
+    <path fill="currentColor" opacity="0.06" d="M600 600c-16.6 0-30-13.4-30-30s13.4-30 30-30 30 13.4 30 30-13.4 30-30 30zm-400 0c-16.6 0-30-13.4-30-30s13.4-30 30-30 30 13.4 30 30-13.4 30-30 30z">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 400 400"
+        to="360 400 400"
+        dur="30s"
+        repeatCount="indefinite"
+      />
+    </path>
+  </g>
+</svg>
