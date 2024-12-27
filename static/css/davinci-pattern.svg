@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
   <!-- Geometric pattern inspired by Leonardo da Vinci -->
-  
+
   <!-- Base circular grid -->
   <defs>
     <pattern id="circleGrid" width="100" height="100" patternUnits="userSpaceOnUse">
@@ -59,10 +59,11 @@
     </path>
   </g>
 
-  <!-- Fourth Motif - Golden Spiral -->
-  <g transform="translate(400, 400)" opacity="0.15">
-    <path fill="none" stroke="currentColor" stroke-width="1" d="
-      M 0,0 Q 50,0 50,-50 T 0,-50 T -50,0 T 0,50 T 50,0">
+  <!-- Fourth Motif - Fibonacci Spiral -->
+  <g transform="translate(400, 400)" opacity="0.2">
+    <path fill="none" stroke="currentColor" stroke-width="1.5" d="
+      M 0,0 C 0,-40 40,-40 40,0 C 40,40 -40,40 -40,0 C -40,-60 60,-60 60,0
+      C 60,60 -60,60 -60,0 C -60,-80 80,-80 80,0">
       <animateTransform
         attributeName="transform"
         type="rotate"
@@ -89,12 +90,16 @@
     </path>
   </g>
 
-  <!-- Sixth Motif - Interconnected Circles -->
-  <g transform="translate(400, 400)" opacity="0.15">
-    <path fill="none" stroke="currentColor" stroke-width="1" d="
-      M 0,-30 A 30,30 0 1,0 0,30 A 30,30 0 1,0 0,-30
-      M -26,-15 A 30,30 0 1,0 26,-15 A 30,30 0 1,0 -26,-15
-      M -26,15 A 30,30 0 1,0 26,15 A 30,30 0 1,0 -26,15">
+  <!-- Sixth Motif - Dynamic Circles -->
+  <g transform="translate(400, 400)" opacity="0.2">
+    <path fill="none" stroke="currentColor" stroke-width="1.5" d="
+      M 0,0 m -90,0 a 90,90 0 1,0 180,0 a 90,90 0 1,0 -180,0
+      M 0,0 m -60,0 a 60,60 0 1,0 120,0 a 60,60 0 1,0 -120,0
+      M 0,0 m -30,0 a 30,30 0 1,0 60,0 a 30,30 0 1,0 -60,0">
+      <animate attributeName="stroke-width" 
+               values="1.5;2;1.5"
+               dur="4s"
+               repeatCount="indefinite"/>
       <animateTransform
         attributeName="transform"
         type="rotate"
