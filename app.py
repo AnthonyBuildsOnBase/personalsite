@@ -2,11 +2,12 @@ import logging
 import os
 from datetime import datetime
 from flask import Flask, render_template, abort
-import frontmatter
+import frontmatter as python_frontmatter  # Update import
 import markdown
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # Create Flask app
 app = Flask(__name__)
@@ -28,34 +29,36 @@ def load_posts():
     # Create posts directory if it doesn't exist
     os.makedirs(posts_dir, exist_ok=True)
 
+    logger.debug(f"Loading posts from directory: {posts_dir}")
+
     for filename in os.listdir(posts_dir):
         if filename.endswith('.md'):
             file_path = os.path.join(posts_dir, filename)
-            with open(file_path, 'r') as f:
-                # Parse front matter and content
-                post = frontmatter.load(f)
+            logger.debug(f"Processing file: {file_path}")
+            try:
+                with open(file_path, 'r') as f:
+                    # Parse front matter and content
+                    post = python_frontmatter.load(f)  # Updated to use correct import
 
-                # Convert content from markdown to HTML
-                html_content = markdown.markdown(post.content)
+                    # Convert content from markdown to HTML
+                    html_content = markdown.markdown(post.content)
 
-                # Create slug from filename
-                slug = filename[:-3]  # Remove .md extension
+                    # Create slug from filename
+                    slug = filename[:-3]  # Remove .md extension
 
-                # Store post data
-                posts[slug] = {
-                    'title':
-                    post.metadata.get('title', 'Untitled'),
-                    'date':
-                    datetime.strptime(
-                        str(post.metadata.get('date', '2000-01-01')),
-                        '%Y-%m-%d'),
-                    'tags':
-                    post.metadata.get('tags', []),
-                    'content':
-                    html_content,
-                    'reading_time':
-                    calculate_reading_time(post.content)
-                }
+                    # Store post data
+                    posts[slug] = {
+                        'title': post.metadata.get('title', 'Untitled'),
+                        'date': datetime.strptime(
+                            str(post.metadata.get('date', '2000-01-01')),
+                            '%Y-%m-%d'),
+                        'tags': post.metadata.get('tags', []),
+                        'content': html_content,
+                        'reading_time': calculate_reading_time(post.content)
+                    }
+                    logger.debug(f"Successfully loaded post: {slug}")
+            except Exception as e:
+                logger.error(f"Error processing file {filename}: {str(e)}")
 
     return posts
 
@@ -69,7 +72,7 @@ def index():
     writings_content = []
     for slug, post in POSTS.items():
         tags_html = ' '.join(f'<span class="tag">{tag}</span>'
-                             for tag in post['tags'])
+                            for tag in post['tags'])
         writings_content.append(
             f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
@@ -78,40 +81,42 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location":
-            "Manhattan, NY",
-            "role":
-            "DeFi Ecosystem Analyst at Base",
+            "location": "Manhattan, NY",
+            "role": "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [
-                {"label": "GitHub", "url": "https://github.com/AnthonyBuildsOnBase"},
-                {"label": "LinkedIn", "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"},
-                {"label": "Twitter", "url": "https://x.com/0xblockboy"}
+                {
+                    "label": "GitHub",
+                    "url": "https://github.com/AnthonyBuildsOnBase"
+                },
+                {
+                    "label": "LinkedIn",
+                    "url":
+                    "https://www.linkedin.com/in/anthony-katwan-566675175/"
+                },
+                {
+                    "label": "Twitter",
+                    "url": "https://x.com/0xblockboy"
+                }
             ]
         },
         sections=[{
-            "title":
-            "Now",
-            "content":
-            """
+            "title": "Now",
+            "content": """
                 Working at <a href="https://www.base.org/about?utm_source=dotorg&utm_medium=nav">Base</a> to bring the worlds financial markets onchain.
                 """
         }, {
-            "title":
-            "Previously",
-            "content":
-            """
+            "title": "Previously",
+            "content": """
                 • Led backend development for a startup's core product
                 • Worked on scalable microservices architecture
                 • Contributed to open-source Python libraries
                 • Taught programming workshops at local meetups
                 """
         }, {
-            "title":
-            "Reading",
-            "content":
-            """
+            "title": "Reading",
+            "content": """
                 • Designing Data-Intensive Applications by Martin Kleppmann
                 • The Pragmatic Programmer by Dave Thomas
                 • Clean Code by Robert C. Martin
