@@ -100,21 +100,10 @@ def index():
 
     # Add Substack posts if available
     if substack_posts:
-        writings_content.append("Substack Articles:")
         for post in substack_posts:
             writings_content.append(
                 f'• <a href="{post["link"]}">{post["title"]}</a> ({post["date"].strftime("%Y")})'
             )
-        writings_content.append("")  # Add spacing
-        writings_content.append("Other Writings:")
-
-    # Add local posts
-    for slug, post in POSTS.items():
-        tags_html = ' '.join(f'<span class="tag">{tag}</span>'
-                            for tag in post['tags'])
-        writings_content.append(
-            f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
-        )
 
     return render_template(
         'index.html',
