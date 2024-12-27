@@ -42,13 +42,13 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../css/mechanical-pattern.svg');
+    background-image: url('../css/davinci-pattern.svg');
     background-repeat: repeat;
     background-position: center;
     background-size: cover;
     z-index: -1;
-    opacity: 0.6;
-    transition: opacity 0.3s;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
 }
 
 /* Typography */

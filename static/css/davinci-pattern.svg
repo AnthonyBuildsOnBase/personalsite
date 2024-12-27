@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <!-- Geometric pattern inspired by Leonardo da Vinci -->
+  
+  <!-- Base circular grid -->
+  <defs>
+    <pattern id="circleGrid" width="100" height="100" patternUnits="userSpaceOnUse">
+      <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#circleGrid)"/>
+
+  <!-- First Motif - Flower of Life Base -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M 0,-100 A 100,100 0 1,1 -86.6,-50
+      M -86.6,-50 A 100,100 0 1,1 -86.6,50
+      M -86.6,50 A 100,100 0 1,1 0,100
+      M 0,100 A 100,100 0 1,1 86.6,50
+      M 86.6,50 A 100,100 0 1,1 86.6,-50
+      M 86.6,-50 A 100,100 0 1,1 0,-100">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 0 0"
+        to="360 0 0"
+        dur="60s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Second Motif - Pentagonal Star -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M 0,-80 L 76,-24.7 L 47,64.7 L -47,64.7 L -76,-24.7 Z
+      M 0,-80 L 47,64.7 M 76,-24.7 L -47,64.7 M -76,-24.7 L 0,-80">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 0 0"
+        to="0 0 0"
+        dur="45s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Third Motif - Vitruvian Proportions -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M -70,0 L 70,0 M 0,-70 L 0,70
+      M -49.5,-49.5 L 49.5,49.5 M -49.5,49.5 L 49.5,-49.5
+      M 0,0 m -60,0 a 60,60 0 1,0 120,0 a 60,60 0 1,0 -120,0">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 0 0"
+        to="360 0 0"
+        dur="30s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Fourth Motif - Golden Spiral -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M 0,0 Q 50,0 50,-50 T 0,-50 T -50,0 T 0,50 T 50,0">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 0 0"
+        to="0 0 0"
+        dur="40s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Fifth Motif - Sacred Geometry -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M -40,-69.28 L 40,-69.28 L 80,0 L 40,69.28 L -40,69.28 L -80,0 Z
+      M -40,-69.28 L 40,69.28 M 40,-69.28 L -40,69.28
+      M -80,0 L 80,0">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="0 0 0"
+        to="360 0 0"
+        dur="50s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Sixth Motif - Interconnected Circles -->
+  <g transform="translate(400, 400)" opacity="0.15">
+    <path fill="none" stroke="currentColor" stroke-width="1" d="
+      M 0,-30 A 30,30 0 1,0 0,30 A 30,30 0 1,0 0,-30
+      M -26,-15 A 30,30 0 1,0 26,-15 A 30,30 0 1,0 -26,-15
+      M -26,15 A 30,30 0 1,0 26,15 A 30,30 0 1,0 -26,15">
+      <animateTransform
+        attributeName="transform"
+        type="rotate"
+        from="360 0 0"
+        to="0 0 0"
+        dur="35s"
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
