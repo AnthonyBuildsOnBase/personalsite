@@ -12,11 +12,13 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = "a secret key"  # In production, use environment variable
 
+
 def calculate_reading_time(content):
     """Calculate reading time in minutes based on word count."""
     words = len(content.split())
     minutes = round(words / 200)  # Assuming 200 words per minute reading speed
     return max(1, minutes)  # Minimum 1 minute reading time
+
 
 def load_posts():
     """Load all posts from markdown files."""
@@ -41,74 +43,89 @@ def load_posts():
 
                 # Store post data
                 posts[slug] = {
-                    'title': post.metadata.get('title', 'Untitled'),
-                    'date': datetime.strptime(str(post.metadata.get('date', '2000-01-01')), '%Y-%m-%d'),
-                    'tags': post.metadata.get('tags', []),
-                    'content': html_content,
-                    'reading_time': calculate_reading_time(post.content)
+                    'title':
+                    post.metadata.get('title', 'Untitled'),
+                    'date':
+                    datetime.strptime(
+                        str(post.metadata.get('date', '2000-01-01')),
+                        '%Y-%m-%d'),
+                    'tags':
+                    post.metadata.get('tags', []),
+                    'content':
+                    html_content,
+                    'reading_time':
+                    calculate_reading_time(post.content)
                 }
 
     return posts
 
+
 # Load posts at startup
 POSTS = load_posts()
+
 
 @app.route('/')
 def index():
     writings_content = []
     for slug, post in POSTS.items():
-        tags_html = ' '.join(f'<span class="tag">{tag}</span>' for tag in post['tags'])
+        tags_html = ' '.join(f'<span class="tag">{tag}</span>'
+                             for tag in post['tags'])
         writings_content.append(
             f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
 
-    return render_template('index.html', 
-        name="John Doe",
+    return render_template(
+        'index.html',
+        name="Anthonyk.base.eth",
         current={
-            "location": "San Francisco, CA",
-            "role": "Software Engineer",
-            "focus": "Building minimalist web applications"
+            "location":
+            "Manhattan, NY",
+            "role":
+            "DeFi Ecosystem Analyst at Base",
+            "focus":
+            "Passionate about political and economic tools that empower individuals to realize the full value of the internet"
         },
-        sections=[
-            {
-                "title": "Now",
-                "content": """
-                I'm currently focused on building web applications with Python and Flask.
-                Learning about system design and distributed systems.
-                Reading "Designing Data-Intensive Applications".
+        sections=[{
+            "title":
+            "Now",
+            "content":
+            """
+                Working at <a href="https://www.base.org/about?utm_source=dotorg&utm_medium=nav">Base</a> to bring the worlds financial markets onchain.
                 """
-            },
-            {
-                "title": "Previously",
-                "content": """
+        }, {
+            "title":
+            "Previously",
+            "content":
+            """
                 • Led backend development for a startup's core product
                 • Worked on scalable microservices architecture
                 • Contributed to open-source Python libraries
                 • Taught programming workshops at local meetups
                 """
-            },
-            {
-                "title": "Links",
-                "content": """
+        }, {
+            "title":
+            "Links",
+            "content":
+            """
                 • <a href="https://github.com/johndoe">GitHub</a>
                 • <a href="https://linkedin.com/in/johndoe">LinkedIn</a>
                 • <a href="https://twitter.com/johndoe">Twitter</a>
                 """
-            },
-            {
-                "title": "Reading",
-                "content": """
+        }, {
+            "title":
+            "Reading",
+            "content":
+            """
                 • Designing Data-Intensive Applications by Martin Kleppmann
                 • The Pragmatic Programmer by Dave Thomas
                 • Clean Code by Robert C. Martin
                 """
-            },
-            {
-                "title": "Writings",
-                "content": "\n".join(writings_content)
-            }
-        ],
+        }, {
+            "title": "Writings",
+            "content": "\n".join(writings_content)
+        }],
         current_date=datetime.now())
+
 
 @app.route('/posts/<slug>')
 def post(slug):
