@@ -94,6 +94,17 @@ def index():
                 """
         }, {
             "title":
+            "Links",
+            "content":
+            """
+                <div class="social-links">
+                • <a href="https://github.com/johndoe" aria-label="GitHub"><i data-feather="github"></i></a>
+                • <a href="https://linkedin.com/in/johndoe" aria-label="LinkedIn"><i data-feather="linkedin"></i></a>
+                • <a href="https://twitter.com/johndoe" aria-label="Twitter"><i data-feather="twitter"></i></a>
+                </div>
+                """
+        }, {
+            "title":
             "Previously",
             "content":
             """
@@ -101,15 +112,6 @@ def index():
                 • Worked on scalable microservices architecture
                 • Contributed to open-source Python libraries
                 • Taught programming workshops at local meetups
-                """
-        }, {
-            "title":
-            "Links",
-            "content":
-            """
-                • <a href="https://github.com/johndoe">GitHub</a>
-                • <a href="https://linkedin.com/in/johndoe">LinkedIn</a>
-                • <a href="https://twitter.com/johndoe">Twitter</a>
                 """
         }, {
             "title":

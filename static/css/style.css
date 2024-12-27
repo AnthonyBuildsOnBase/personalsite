@@ -193,3 +193,27 @@ footer {
 .tags {
     line-height: 2;
 }
+
+/* Social links styling */
+.social-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.social-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.social-links a:hover {
+    color: var(--link-hover-color);
+}
+
+.social-links i {
+    width: 20px;
+    height: 20px;
+}
