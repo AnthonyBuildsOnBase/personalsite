@@ -5,8 +5,8 @@ modules = ["python-3.11"]
 channel = "stable-24_05"
 
 [deployment]
-deploymentTarget = "static"
-publicDir = "templates"
+deploymentTarget = "cloudrun"
+run = ["sh", "-c", "python main.py"]
 
 [workflows]
 runButton = "Project"
