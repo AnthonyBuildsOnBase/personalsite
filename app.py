@@ -1,9 +1,11 @@
 import logging
 import os
 from datetime import datetime
+import feedparser
 from flask import Flask, render_template, abort
-import frontmatter
 import markdown
+from time import mktime
+import yaml
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -20,6 +22,25 @@ def calculate_reading_time(content):
     return max(1, minutes)  # Minimum 1 minute reading time
 
 
+def load_substack_posts(substack_url):
+    """Load posts from Substack RSS feed."""
+    try:
+        feed = feedparser.parse(f"{substack_url}/feed")
+        posts = []
+        for entry in feed.entries[:5]:  # Get latest 5 posts
+            posts.append({
+                'title': entry.title,
+                'link': entry.link,
+                'date': datetime.fromtimestamp(
+                    mktime(entry.published_parsed)) if hasattr(
+                        entry, 'published_parsed') else datetime.now(),
+            })
+        return posts
+    except Exception as e:
+        logging.error(f"Error fetching Substack posts: {e}")
+        return []
+
+
 def load_posts():
     """Load all posts from markdown files."""
     posts = {}
@@ -32,29 +53,35 @@ def load_posts():
         if filename.endswith('.md'):
             file_path = os.path.join(posts_dir, filename)
             with open(file_path, 'r') as f:
-                # Parse front matter and content
-                post = frontmatter.load(f)
+                # Parse content
+                content = f.read()
+
+                # Split metadata and content
+                if content.startswith('---'):
+                    parts = content.split('---', 2)[1:]
+                    if len(parts) >= 2:
+                        metadata = yaml.safe_load(parts[0])
+                        content = parts[1]
+                    else:
+                        metadata = {}
+                        content = parts[0]
+                else:
+                    metadata = {}
 
                 # Convert content from markdown to HTML
-                html_content = markdown.markdown(post.content)
+                html_content = markdown.markdown(content)
 
                 # Create slug from filename
                 slug = filename[:-3]  # Remove .md extension
 
                 # Store post data
                 posts[slug] = {
-                    'title':
-                    post.metadata.get('title', 'Untitled'),
-                    'date':
-                    datetime.strptime(
-                        str(post.metadata.get('date', '2000-01-01')),
-                        '%Y-%m-%d'),
-                    'tags':
-                    post.metadata.get('tags', []),
-                    'content':
-                    html_content,
-                    'reading_time':
-                    calculate_reading_time(post.content)
+                    'title': metadata.get('title', 'Untitled'),
+                    'date': datetime.strptime(
+                        str(metadata.get('date', '2000-01-01')), '%Y-%m-%d'),
+                    'tags': metadata.get('tags', []),
+                    'content': html_content,
+                    'reading_time': calculate_reading_time(content)
                 }
 
     return posts
@@ -66,10 +93,25 @@ POSTS = load_posts()
 
 @app.route('/')
 def index():
+    # Get Substack posts
+    substack_posts = load_substack_posts('https://yoursubstack.substack.com')
+
     writings_content = []
+
+    # Add Substack posts if available
+    if substack_posts:
+        writings_content.append("Substack Articles:")
+        for post in substack_posts:
+            writings_content.append(
+                f'• <a href="{post["link"]}">{post["title"]}</a> ({post["date"].strftime("%Y")})'
+            )
+        writings_content.append("")  # Add spacing
+        writings_content.append("Other Writings:")
+
+    # Add local posts
     for slug, post in POSTS.items():
         tags_html = ' '.join(f'<span class="tag">{tag}</span>'
-                             for tag in post['tags'])
+                            for tag in post['tags'])
         writings_content.append(
             f'• <a href="/posts/{slug}">{post["title"]}</a> ({post["date"].strftime("%Y")}) {tags_html}'
         )
@@ -78,20 +120,16 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location":
-            "Manhattan, NY",
-            "role":
-            "DeFi Ecosystem Analyst at Base",
+            "location": "Manhattan, NY",
+            "role": "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [{
                 "label": "GitHub",
                 "url": "https://github.com/AnthonyBuildsOnBase"
             }, {
-                "label":
-                "LinkedIn",
-                "url":
-                "https://www.linkedin.com/in/anthony-katwan-566675175/"
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"
             }, {
                 "label": "Twitter",
                 "url": "https://x.com/0xblockboy"
