@@ -83,7 +83,12 @@ def index():
             "role":
             "DeFi Ecosystem Analyst at Base",
             "focus":
-            "Passionate about political and economic tools that empower individuals to realize the full value of the internet"
+            "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
+            "links": [
+                {"label": "GitHub", "url": "https://github.com/johndoe"},
+                {"label": "LinkedIn", "url": "https://linkedin.com/in/johndoe"},
+                {"label": "Twitter", "url": "https://twitter.com/johndoe"}
+            ]
         },
         sections=[{
             "title":
@@ -101,15 +106,6 @@ def index():
                 • Worked on scalable microservices architecture
                 • Contributed to open-source Python libraries
                 • Taught programming workshops at local meetups
-                """
-        }, {
-            "title":
-            "Links",
-            "content":
-            """
-                • <a href="https://github.com/johndoe">GitHub</a>
-                • <a href="https://linkedin.com/in/johndoe">LinkedIn</a>
-                • <a href="https://twitter.com/johndoe">Twitter</a>
                 """
         }, {
             "title":
