@@ -10,7 +10,7 @@ class BucketListItem(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     category = db.Column(db.String(50))  # For grouping related items
     priority = db.Column(db.Integer, default=1)  # For ordering items
-    target_year = db.Column(db.Integer, default=lambda: datetime.utcnow().year)  # Year to complete the item
+    target_year = db.Column(db.Integer, nullable=True)  # Year to complete the item, nullable for backlog
 
     def __repr__(self):
         return f'<BucketListItem {self.title}>'

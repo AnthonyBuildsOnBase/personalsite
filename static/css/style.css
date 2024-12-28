@@ -483,3 +483,52 @@ footer {
 .future-section {
     border-left: 4px solid #6c757d;
 }
+
+/* Add to the existing CSS */
+
+/* Collapsible section styles */
+.collapsible-section {
+    cursor: pointer;
+}
+
+.collapsible-content {
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.collapsed .collapsible-content {
+    max-height: 0;
+}
+
+.collapsible-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.collapse-icon {
+    transition: transform 0.3s ease;
+}
+
+.collapsed .collapse-icon {
+    transform: rotate(-90deg);
+}
+
+/* Future Backlog specific styles */
+.backlog-section {
+    border-left: 4px solid #6c757d;
+    opacity: 0.8;
+}
+
+.backlog-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: var(--window-bg);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.backlog-item:hover {
+    transform: translateY(-2px);
+}

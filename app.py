@@ -191,20 +191,29 @@ def bucketlist():
         BucketListItem.created_at.desc()
     ).all()
 
+    # Get backlog items (items with no target year)
+    backlog_items = BucketListItem.query.filter_by(
+        target_year=None
+    ).order_by(
+        BucketListItem.created_at.desc()
+    ).all()
+
     # Organize items by year and category
     years_data = {}
     for item in items:
-        year = item.target_year
-        if year not in years_data:
-            years_data[year] = {'categories': {}, 'total': 0, 'completed': 0}
+        if item.target_year is None:  # Skip backlog items
+            continue
 
-        if item.category not in years_data[year]['categories']:
-            years_data[year]['categories'][item.category] = []
+        if item.target_year not in years_data:
+            years_data[item.target_year] = {'categories': {}, 'total': 0, 'completed': 0}
 
-        years_data[year]['categories'][item.category].append(item)
-        years_data[year]['total'] += 1
+        if item.category not in years_data[item.target_year]['categories']:
+            years_data[item.target_year]['categories'][item.category] = []
+
+        years_data[item.target_year]['categories'][item.category].append(item)
+        years_data[item.target_year]['total'] += 1
         if item.completed:
-            years_data[year]['completed'] += 1
+            years_data[item.target_year]['completed'] += 1
 
     # Organize years into past, present, and future
     organized_years = {
@@ -216,6 +225,7 @@ def bucketlist():
     return render_template(
         'bucketlist.html',
         organized_years=organized_years,
+        backlog_items=backlog_items,
         current_year=current_year,
         current_date=datetime.now()
     )
