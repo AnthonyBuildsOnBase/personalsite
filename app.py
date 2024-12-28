@@ -198,10 +198,11 @@ def bucketlist():
         if year not in years_data:
             years_data[year] = {'categories': {}, 'total': 0, 'completed': 0}
 
-        if item.category not in years_data[year]['categories']:
-            years_data[year]['categories'][item.category] = []
+        category = item.category or 'Uncategorized'
+        if category not in years_data[year]['categories']:
+            years_data[year]['categories'][category] = []
 
-        years_data[year]['categories'][item.category].append(item)
+        years_data[year]['categories'][category].append(item)
         years_data[year]['total'] += 1
         if item.completed:
             years_data[year]['completed'] += 1
@@ -212,6 +213,10 @@ def bucketlist():
         'current': {year: data for year, data in years_data.items() if year == current_year},
         'future': {year: data for year, data in years_data.items() if year > current_year}
     }
+
+    # Add debug logging
+    app.logger.debug(f"Found {len(items)} total items")
+    app.logger.debug(f"Organized years data: {organized_years}")
 
     return render_template(
         'bucketlist.html',
