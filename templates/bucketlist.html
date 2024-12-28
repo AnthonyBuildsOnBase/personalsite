@@ -109,12 +109,6 @@
                                     Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
                                 </div>
                                 {% endif %}
-                                <div class="timeline-actions">
-                                    <button class="toggle-complete-btn">
-                                        <span class="complete-text">Mark as Complete</span>
-                                        <span class="completed-text">Completed!</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -153,12 +147,6 @@
                             <div class="timeline-content">
                                 <h3>{{ item.title }}</h3>
                                 <p>{{ item.description }}</p>
-                                <div class="timeline-actions">
-                                    <button class="toggle-complete-btn">
-                                        <span class="complete-text">Mark as Complete</span>
-                                        <span class="completed-text">Completed!</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         {% endfor %}

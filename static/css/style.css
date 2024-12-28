@@ -338,6 +338,7 @@ footer {
 /* Timeline Actions */
 .timeline-actions {
     margin-top: 1rem;
+    display: none; /* Removed button for non-admin users */
 }
 
 .toggle-complete-btn {
@@ -366,25 +367,18 @@ footer {
 
 /* Completed item styles */
 .timeline-item.completed .marker-circle {
-    background: var(--text-color);
-    border-color: var(--text-color);
+    background: #28a745;
+    border-color: #28a745;
 }
 
 .timeline-item.completed .timeline-content {
-    border-left: 4px solid var(--text-color);
+    border-left: 4px solid #28a745;
 }
 
-.timeline-item.completed .complete-text {
-    display: none;
-}
-
-.timeline-item.completed .completed-text {
-    display: inline;
-}
-
-.timeline-item.completed .toggle-complete-btn {
-    background: var(--text-color);
-    color: var(--bg-color);
+.timeline-item.completed .completion-date {
+    font-size: 0.9em;
+    color: var(--muted-color);
+    margin-top: 10px;
 }
 
 /* Completion animation */
@@ -395,15 +389,15 @@ footer {
 @keyframes complete-pulse {
     0% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(var(--text-color-rgb), 0.7);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
     }
     70% {
         transform: scale(1.5);
-        box-shadow: 0 0 0 10px rgba(var(--text-color-rgb), 0);
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
     }
     100% {
         transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(var(--text-color-rgb), 0);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
     }
 }
 
