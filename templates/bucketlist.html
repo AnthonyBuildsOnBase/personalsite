@@ -6,7 +6,7 @@
 <main class="py-5">
     <header class="mb-5">
         <h1 class="display-4">My Bucket List</h1>
-        <p class="lead text-muted">Dreams, aspirations, and achievements</p>
+        <p class="lead text-muted">Dreams, aspirations, and achievements through the years</p>
     </header>
 
     <div class="progress-summary">
@@ -34,47 +34,165 @@
     </div>
 
     <div class="bucketlist-container">
-        {% for category, items in categorized_items.items() %}
-        <section class="category-section mb-5">
-            <div class="category-header">
-                <h2 class="category-title">{{ category or 'Uncategorized' }}</h2>
-                <div class="category-progress">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 0%"
-                             data-category="{{ category }}"
-                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        <!-- Past Years Section -->
+        {% if organized_years.past %}
+        <div class="time-section past-section">
+            <h2 class="time-section-title">Completed Goals</h2>
+            {% for year, data in organized_years.past.items() %}
+            <div class="year-section" data-year="{{ year }}">
+                <div class="year-header">
+                    <h3 class="year-title">{{ year }}</h3>
+                    <div class="year-progress">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (data.completed / data.total * 100) if data.total > 0 else 0 }}%"
+                                 data-year="{{ year }}"
+                                 aria-valuenow="{{ (data.completed / data.total * 100) if data.total > 0 else 0 }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ "%.0f"|format(data.completed / data.total * 100) if data.total > 0 else 0 }}%
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="timeline">
-                {% for item in items %}
-                <div class="timeline-item {% if item.completed %}completed{% endif %}"
-                     data-item-id="{{ item.id }}"
-                     data-category="{{ category }}">
-                    <div class="timeline-marker">
-                        <div class="marker-circle"></div>
-                        <div class="marker-line"></div>
+                {% for category, items in data.categories.items() %}
+                <div class="category-section mb-5">
+                    <div class="category-header">
+                        <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
                     </div>
-                    <div class="timeline-content">
-                        <h3>{{ item.title }}</h3>
-                        <p>{{ item.description }}</p>
-                        {% if item.completed %}
-                        <div class="completion-date">
-                            Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                    <div class="timeline">
+                        {% for item in items %}
+                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                             data-item-id="{{ item.id }}"
+                             data-year="{{ year }}"
+                             data-category="{{ category }}">
+                            <div class="timeline-marker">
+                                <div class="marker-circle"></div>
+                                <div class="marker-line"></div>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.description }}</p>
+                                {% if item.completed %}
+                                <div class="completion-date">
+                                    Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                                </div>
+                                {% endif %}
+                            </div>
                         </div>
-                        {% endif %}
-                        <div class="timeline-actions">
-                            <button class="toggle-complete-btn">
-                                <span class="complete-text">Mark as Complete</span>
-                                <span class="completed-text">Completed!</span>
-                            </button>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
-        </section>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Current Year Section -->
+        {% if organized_years.current %}
+        <div class="time-section current-section">
+            <h2 class="time-section-title">Current Year Goals ({{ current_year }})</h2>
+            {% for year, data in organized_years.current.items() %}
+            <div class="year-section active" data-year="{{ year }}">
+                <div class="year-header">
+                    <h3 class="year-title">In Progress</h3>
+                    <div class="year-progress">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ (data.completed / data.total * 100) if data.total > 0 else 0 }}%"
+                                 data-year="{{ year }}"
+                                 aria-valuenow="{{ (data.completed / data.total * 100) if data.total > 0 else 0 }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ "%.0f"|format(data.completed / data.total * 100) if data.total > 0 else 0 }}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% for category, items in data.categories.items() %}
+                <div class="category-section mb-5">
+                    <div class="category-header">
+                        <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
+                    </div>
+                    <div class="timeline">
+                        {% for item in items %}
+                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                             data-item-id="{{ item.id }}"
+                             data-year="{{ year }}"
+                             data-category="{{ category }}">
+                            <div class="timeline-marker">
+                                <div class="marker-circle"></div>
+                                <div class="marker-line"></div>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.description }}</p>
+                                {% if item.completed %}
+                                <div class="completion-date">
+                                    Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                                </div>
+                                {% endif %}
+                                <div class="timeline-actions">
+                                    <button class="toggle-complete-btn">
+                                        <span class="complete-text">Mark as Complete</span>
+                                        <span class="completed-text">Completed!</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Future Years Section -->
+        {% if organized_years.future %}
+        <div class="time-section future-section">
+            <h2 class="time-section-title">Future Goals</h2>
+            {% for year, data in organized_years.future.items() %}
+            <div class="year-section" data-year="{{ year }}">
+                <div class="year-header">
+                    <h3 class="year-title">{{ year }}</h3>
+                </div>
+                {% for category, items in data.categories.items() %}
+                <div class="category-section mb-5">
+                    <div class="category-header">
+                        <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
+                    </div>
+                    <div class="timeline">
+                        {% for item in items %}
+                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                             data-item-id="{{ item.id }}"
+                             data-year="{{ year }}"
+                             data-category="{{ category }}">
+                            <div class="timeline-marker">
+                                <div class="marker-circle"></div>
+                                <div class="marker-line"></div>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.description }}</p>
+                                <div class="timeline-actions">
+                                    <button class="toggle-complete-btn">
+                                        <span class="complete-text">Mark as Complete</span>
+                                        <span class="completed-text">Completed!</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </main>
 
@@ -99,41 +217,44 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(item);
 
         // Add click handler for completion toggle
-        item.querySelector('.toggle-complete-btn').addEventListener('click', async function(e) {
-            e.stopPropagation();
-            const itemElement = this.closest('.timeline-item');
-            const itemId = itemElement.dataset.itemId;
+        const toggleBtn = item.querySelector('.toggle-complete-btn');
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', async function(e) {
+                e.stopPropagation();
+                const itemElement = this.closest('.timeline-item');
+                const itemId = itemElement.dataset.itemId;
 
-            try {
-                const response = await fetch(`/bucketlist/toggle/${itemId}`, {
-                    method: 'POST'
-                });
-                const data = await response.json();
+                try {
+                    const response = await fetch(`/bucketlist/toggle/${itemId}`, {
+                        method: 'POST'
+                    });
+                    const data = await response.json();
 
-                if (data.success) {
-                    itemElement.classList.toggle('completed');
-                    if (data.completed) {
-                        itemElement.classList.add('just-completed');
-                        setTimeout(() => {
-                            itemElement.classList.remove('just-completed');
-                        }, 1000);
+                    if (data.success) {
+                        itemElement.classList.toggle('completed');
+                        if (data.completed) {
+                            itemElement.classList.add('just-completed');
+                            setTimeout(() => {
+                                itemElement.classList.remove('just-completed');
+                            }, 1000);
+                        }
+                        // Update progress after toggling
+                        updateAllProgress();
                     }
-                    // Update progress after toggling
-                    updateAllProgress();
+                } catch (error) {
+                    console.error('Error toggling item:', error);
                 }
-            } catch (error) {
-                console.error('Error toggling item:', error);
-            }
-        });
+            });
+        }
     });
 
-    // Function to update progress for a category
-    function updateCategoryProgress(category) {
-        const items = document.querySelectorAll(`.timeline-item[data-category="${category}"]`);
-        const completedItems = document.querySelectorAll(`.timeline-item.completed[data-category="${category}"]`);
+    // Function to update progress for a year
+    function updateYearProgress(year) {
+        const items = document.querySelectorAll(`.timeline-item[data-year="${year}"]`);
+        const completedItems = document.querySelectorAll(`.timeline-item.completed[data-year="${year}"]`);
         const progress = (completedItems.length / items.length) * 100;
 
-        const progressBar = document.querySelector(`.progress-bar[data-category="${category}"]`);
+        const progressBar = document.querySelector(`.progress-bar[data-year="${year}"]`);
         if (progressBar) {
             progressBar.style.width = `${progress}%`;
             progressBar.setAttribute('aria-valuenow', progress);
@@ -162,15 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to update all progress indicators
     function updateAllProgress() {
-        // Get unique categories
-        const categories = new Set();
+        // Get unique years
+        const years = new Set();
         document.querySelectorAll('.timeline-item').forEach(item => {
-            categories.add(item.dataset.category);
+            years.add(item.dataset.year);
         });
 
-        // Update progress for each category
-        categories.forEach(category => {
-            updateCategoryProgress(category);
+        // Update progress for each year
+        years.forEach(year => {
+            updateYearProgress(year);
         });
 
         // Update total progress

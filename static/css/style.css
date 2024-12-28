@@ -479,3 +479,55 @@ footer {
 .dark-theme .progress-bar {
     background-color: #fff;
 }
+
+/* Time Section Styles */
+.time-section {
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background: var(--window-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.year-section {
+    margin-bottom: 3rem;
+}
+
+.year-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.year-title {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.year-progress {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* Section-specific styles */
+.past-section {
+    border-left: 4px solid #28a745;
+}
+
+.current-section {
+    border-left: 4px solid #007bff;
+}
+
+.future-section {
+    border-left: 4px solid #6c757d;
+}

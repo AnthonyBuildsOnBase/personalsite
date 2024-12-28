@@ -182,21 +182,41 @@ def post(slug):
 
 @app.route('/bucketlist')
 def bucketlist():
+    current_year = datetime.now().year
+
+    # Get all items ordered by year and priority
     items = BucketListItem.query.order_by(
+        BucketListItem.target_year.asc(),
         BucketListItem.priority.desc(),
         BucketListItem.created_at.desc()
     ).all()
 
-    # Group items by category
-    categorized_items = {}
+    # Organize items by year and category
+    years_data = {}
     for item in items:
-        if item.category not in categorized_items:
-            categorized_items[item.category] = []
-        categorized_items[item.category].append(item)
+        year = item.target_year
+        if year not in years_data:
+            years_data[year] = {'categories': {}, 'total': 0, 'completed': 0}
+
+        if item.category not in years_data[year]['categories']:
+            years_data[year]['categories'][item.category] = []
+
+        years_data[year]['categories'][item.category].append(item)
+        years_data[year]['total'] += 1
+        if item.completed:
+            years_data[year]['completed'] += 1
+
+    # Organize years into past, present, and future
+    organized_years = {
+        'past': {year: data for year, data in years_data.items() if year < current_year},
+        'current': {year: data for year, data in years_data.items() if year == current_year},
+        'future': {year: data for year, data in years_data.items() if year > current_year}
+    }
 
     return render_template(
         'bucketlist.html',
-        categorized_items=categorized_items,
+        organized_years=organized_years,
+        current_year=current_year,
         current_date=datetime.now()
     )
 
@@ -213,24 +233,44 @@ def toggle_item(item_id):
 def create_sample_bucketlist_items():
     """Create sample bucket list items if none exist."""
     if BucketListItem.query.first() is None:
+        current_year = datetime.utcnow().year
         items = [
             {
                 'title': 'Learn to Play Piano',
                 'description': 'Master at least one classical piece',
                 'category': 'Skills',
-                'priority': 2
+                'priority': 2,
+                'target_year': current_year
             },
             {
                 'title': 'Visit Northern Lights',
                 'description': 'See the Aurora Borealis in person',
                 'category': 'Travel',
-                'priority': 3
+                'priority': 3,
+                'target_year': current_year + 1
             },
             {
                 'title': 'Run a Marathon',
                 'description': 'Complete a full 26.2 mile marathon',
                 'category': 'Fitness',
-                'priority': 1
+                'priority': 1,
+                'target_year': current_year
+            },
+            {
+                'title': 'Write a Book',
+                'description': 'Complete and publish a novel',
+                'category': 'Creative',
+                'priority': 2,
+                'target_year': current_year + 2
+            },
+            {
+                'title': 'Learn Photography',
+                'description': 'Master manual camera settings',
+                'category': 'Skills',
+                'priority': 1,
+                'target_year': current_year - 1,
+                'completed': True,
+                'completion_date': datetime(current_year - 1, 12, 1)
             }
         ]
 
