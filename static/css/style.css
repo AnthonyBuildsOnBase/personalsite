@@ -281,33 +281,67 @@ footer {
 }
 
 
+/* Time Section Styles */
+.time-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--window-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.year-section {
+    margin-bottom: 2rem;
+}
+
+.year-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.year-title {
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.year-progress {
+    flex: 1;
+    max-width: 150px;
+}
+
 /* Timeline styles */
 .timeline {
     position: relative;
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 .timeline-item {
     display: flex;
-    margin: 40px 0;
+    margin: 25px 0;
     opacity: 0;
     transform: translateX(-50px);
     transition: all 0.5s ease;
 }
 
-.timeline-item.animate {
-    opacity: 1;
-    transform: translateX(0);
-}
-
 .timeline-marker {
-    flex: 0 0 50px;
+    flex: 0 0 40px;
     position: relative;
 }
 
 .marker-circle {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: var(--bg-color);
     border: 2px solid var(--text-color);
@@ -318,10 +352,10 @@ footer {
 
 .marker-line {
     position: absolute;
-    top: 20px;
-    left: 10px;
+    top: 16px;
+    left: 8px;
     width: 2px;
-    height: calc(100% + 20px);
+    height: calc(100% + 15px);
     background: var(--border-color);
     transition: all 0.3s ease;
 }
@@ -329,13 +363,104 @@ footer {
 .timeline-content {
     flex: 1;
     background: var(--window-bg);
-    padding: 20px;
-    border-radius: 8px;
+    padding: 15px;
+    border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
-/* Timeline Actions */
+.timeline-content h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.timeline-content p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: var(--muted-color);
+}
+
+.completion-date {
+    font-size: 0.8em;
+    color: var(--muted-color);
+    margin-top: 8px;
+}
+
+/* Category styles */
+.category-section {
+    margin-bottom: 2rem;
+}
+
+.category-header {
+    margin-bottom: 1rem;
+}
+
+.category-title {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Progress bar */
+.progress {
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--text-color);
+    transition: width 0.6s ease;
+    font-size: 0.7rem;
+    line-height: 6px;
+    color: transparent;
+}
+
+/* Section-specific styles */
+.past-section {
+    border-left: 3px solid #28a745;
+}
+
+.current-section {
+    border-left: 3px solid #007bff;
+}
+
+.future-section {
+    border-left: 3px solid #6c757d;
+}
+
+/* Completed item styles */
+.timeline-item.completed .marker-circle {
+    background: #28a745;
+    border-color: #28a745;
+    width: 16px;
+    height: 16px;
+}
+
+.timeline-item.completed .timeline-content {
+    border-left: 3px solid #28a745;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .time-section {
+        padding: 1rem;
+    }
+
+    .timeline-content {
+        padding: 12px;
+    }
+
+    .timeline-content h3 {
+        font-size: 1rem;
+    }
+
+    .timeline-content p {
+        font-size: 0.85rem;
+    }
+}
+
 .timeline-actions {
     margin-top: 1rem;
     display: none; /* Removed button for non-admin users */
@@ -401,12 +526,6 @@ footer {
     }
 }
 
-.completion-date {
-    font-size: 0.9em;
-    color: var(--muted-color);
-    margin-top: 10px;
-}
-
 .category-title {
     margin-bottom: 0;
     position: relative;
@@ -432,54 +551,38 @@ footer {
     background-color: #fff;
 }
 
-/* Time Section Styles */
-.time-section {
-    margin-bottom: 4rem;
-    padding: 2rem;
-    background: var(--window-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.time-section-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: var(--text-color);
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
-}
-
-.year-section {
-    margin-bottom: 3rem;
-}
-
-.year-header {
+.category-header {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 2rem;
 }
 
-.year-title {
-    font-size: 1.5rem;
-    margin: 0;
-    color: var(--text-color);
-}
-
-.year-progress {
+.category-progress {
     flex: 1;
     max-width: 200px;
 }
 
-/* Section-specific styles */
-.past-section {
-    border-left: 4px solid #28a745;
+.timeline-item.completed .completion-date {
+    font-size: 0.9em;
+    color: var(--muted-color);
+    margin-top: 10px;
 }
 
-.current-section {
-    border-left: 4px solid #007bff;
+
+.timeline-item:hover .timeline-content {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.future-section {
-    border-left: 4px solid #6c757d;
+.timeline-item:not(.completed):hover .marker-circle {
+    transform: scale(1.2);
+}
+
+.dark-theme .progress {
+    background-color: #333;
+}
+
+.dark-theme .progress-bar {
+    background-color: #fff;
 }
