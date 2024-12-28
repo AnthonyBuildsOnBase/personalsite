@@ -9,14 +9,48 @@
         <p class="lead text-muted">Dreams, aspirations, and achievements</p>
     </header>
 
+    <div class="progress-summary">
+        <div class="progress-circle">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+                <path d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke-width="2.5"
+                    class="circle-bg"/>
+                <path d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke-width="2.5"
+                    class="circle"
+                    id="progress-circle"/>
+            </svg>
+            <div class="percentage" id="total-progress">0%</div>
+        </div>
+        <div class="progress-text">
+            <span id="completed-count">0</span> of <span id="total-count">0</span> goals completed
+        </div>
+    </div>
+
     <div class="bucketlist-container">
         {% for category, items in categorized_items.items() %}
         <section class="category-section mb-5">
-            <h2 class="category-title">{{ category or 'Uncategorized' }}</h2>
+            <div class="category-header">
+                <h2 class="category-title">{{ category or 'Uncategorized' }}</h2>
+                <div class="category-progress">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%"
+                             data-category="{{ category }}"
+                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </div>
+            </div>
             <div class="timeline">
                 {% for item in items %}
                 <div class="timeline-item {% if item.completed %}completed{% endif %}"
-                     data-item-id="{{ item.id }}">
+                     data-item-id="{{ item.id }}"
+                     data-category="{{ category }}">
                     <div class="timeline-marker">
                         <div class="marker-circle"></div>
                         <div class="marker-line"></div>
@@ -29,6 +63,12 @@
                             Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
                         </div>
                         {% endif %}
+                        <div class="timeline-actions">
+                            <button class="toggle-complete-btn">
+                                <span class="complete-text">Mark as Complete</span>
+                                <span class="completed-text">Completed!</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
@@ -40,6 +80,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize progress tracking
+    updateAllProgress();
+
     // Add intersection observer for animation on scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -54,31 +97,85 @@ document.addEventListener('DOMContentLoaded', function() {
     // Observe all timeline items
     document.querySelectorAll('.timeline-item').forEach(item => {
         observer.observe(item);
-        
+
         // Add click handler for completion toggle
-        item.addEventListener('click', async function() {
-            const itemId = this.dataset.itemId;
+        item.querySelector('.toggle-complete-btn').addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const itemElement = this.closest('.timeline-item');
+            const itemId = itemElement.dataset.itemId;
+
             try {
                 const response = await fetch(`/bucketlist/toggle/${itemId}`, {
                     method: 'POST'
                 });
                 const data = await response.json();
-                
+
                 if (data.success) {
-                    this.classList.toggle('completed');
-                    // Trigger completion animation
+                    itemElement.classList.toggle('completed');
                     if (data.completed) {
-                        this.classList.add('just-completed');
+                        itemElement.classList.add('just-completed');
                         setTimeout(() => {
-                            this.classList.remove('just-completed');
+                            itemElement.classList.remove('just-completed');
                         }, 1000);
                     }
+                    // Update progress after toggling
+                    updateAllProgress();
                 }
             } catch (error) {
                 console.error('Error toggling item:', error);
             }
         });
     });
+
+    // Function to update progress for a category
+    function updateCategoryProgress(category) {
+        const items = document.querySelectorAll(`.timeline-item[data-category="${category}"]`);
+        const completedItems = document.querySelectorAll(`.timeline-item.completed[data-category="${category}"]`);
+        const progress = (completedItems.length / items.length) * 100;
+
+        const progressBar = document.querySelector(`.progress-bar[data-category="${category}"]`);
+        if (progressBar) {
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+    }
+
+    // Function to update total progress
+    function updateTotalProgress() {
+        const totalItems = document.querySelectorAll('.timeline-item').length;
+        const completedItems = document.querySelectorAll('.timeline-item.completed').length;
+        const progress = (completedItems / totalItems) * 100;
+
+        // Update circular progress
+        const circle = document.getElementById('progress-circle');
+        const circumference = 2 * Math.PI * 15.9155; // Radius from SVG path
+        const offset = circumference - (progress / 100) * circumference;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = offset;
+
+        // Update percentage text
+        document.getElementById('total-progress').textContent = `${Math.round(progress)}%`;
+        document.getElementById('completed-count').textContent = completedItems;
+        document.getElementById('total-count').textContent = totalItems;
+    }
+
+    // Function to update all progress indicators
+    function updateAllProgress() {
+        // Get unique categories
+        const categories = new Set();
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            categories.add(item.dataset.category);
+        });
+
+        // Update progress for each category
+        categories.forEach(category => {
+            updateCategoryProgress(category);
+        });
+
+        // Update total progress
+        updateTotalProgress();
+    }
 });
 </script>
 {% endblock %}

@@ -239,6 +239,83 @@ footer {
     margin: 0 auto;
 }
 
+/* Progress Summary */
+.progress-summary {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 1rem;
+    background: var(--window-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.progress-circle {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.circular-chart {
+    width: 100px;
+    height: 100px;
+}
+
+.circle-bg {
+    stroke: var(--border-color);
+}
+
+.circle {
+    stroke: var(--text-color);
+    stroke-linecap: round;
+    stroke-dasharray: 100 100;
+    stroke-dashoffset: 100;
+    transition: stroke-dashoffset 0.8s ease;
+}
+
+.percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.progress-text {
+    font-size: 1.1rem;
+    color: var(--muted-color);
+}
+
+/* Category Progress */
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-progress {
+    flex: 1;
+    max-width: 200px;
+}
+
+.progress {
+    height: 8px;
+    background-color: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--text-color);
+    transition: width 0.6s ease;
+    font-size: 0.75rem;
+    line-height: 8px;
+    color: transparent;
+}
+
 .timeline {
     position: relative;
     padding: 20px 0;
@@ -292,6 +369,35 @@ footer {
     transition: all 0.3s ease;
 }
 
+/* Timeline Actions */
+.timeline-actions {
+    margin-top: 1rem;
+}
+
+.toggle-complete-btn {
+    background: none;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.toggle-complete-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+.complete-text {
+    display: inline;
+}
+
+.completed-text {
+    display: none;
+}
+
 /* Completed item styles */
 .timeline-item.completed .marker-circle {
     background: var(--text-color);
@@ -300,6 +406,19 @@ footer {
 
 .timeline-item.completed .timeline-content {
     border-left: 4px solid var(--text-color);
+}
+
+.timeline-item.completed .complete-text {
+    display: none;
+}
+
+.timeline-item.completed .completed-text {
+    display: inline;
+}
+
+.timeline-item.completed .toggle-complete-btn {
+    background: var(--text-color);
+    color: var(--bg-color);
 }
 
 /* Completion animation */
@@ -329,28 +448,9 @@ footer {
 }
 
 .category-title {
-    margin-bottom: 30px;
+    margin-bottom: 0;
     position: relative;
     display: inline-block;
-}
-
-.category-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--text-color);
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: title-underline 0.5s ease forwards;
-}
-
-@keyframes title-underline {
-    to {
-        transform: scaleX(1);
-    }
 }
 
 /* Hover effects */
@@ -361,4 +461,21 @@ footer {
 
 .timeline-item:not(.completed):hover .marker-circle {
     transform: scale(1.2);
+}
+
+/* Dark theme adjustments */
+.dark-theme .circle-bg {
+    stroke: #333;
+}
+
+.dark-theme .circle {
+    stroke: #fff;
+}
+
+.dark-theme .progress {
+    background-color: #333;
+}
+
+.dark-theme .progress-bar {
+    background-color: #fff;
 }
