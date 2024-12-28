@@ -249,57 +249,8 @@ footer {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.progress-circle {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 1rem;
-}
 
-.circular-chart {
-    width: 100px;
-    height: 100px;
-}
-
-.circle-bg {
-    stroke: var(--border-color);
-}
-
-.circle {
-    stroke: var(--text-color);
-    stroke-linecap: round;
-    stroke-dasharray: 100 100;
-    stroke-dashoffset: 100;
-    transition: stroke-dashoffset 0.8s ease;
-}
-
-.percentage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: var(--text-color);
-}
-
-.progress-text {
-    font-size: 1.1rem;
-    color: var(--muted-color);
-}
-
-/* Category Progress */
-.category-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.category-progress {
-    flex: 1;
-    max-width: 200px;
-}
-
+/* Progress bars */
 .progress {
     height: 8px;
     background-color: var(--border-color);
@@ -316,6 +267,21 @@ footer {
     color: transparent;
 }
 
+/* Category Progress */
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-progress {
+    flex: 1;
+    max-width: 200px;
+}
+
+
+/* Timeline styles */
 .timeline {
     position: relative;
     padding: 20px 0;
@@ -464,14 +430,6 @@ footer {
 }
 
 /* Dark theme adjustments */
-.dark-theme .circle-bg {
-    stroke: #333;
-}
-
-.dark-theme .circle {
-    stroke: #fff;
-}
-
 .dark-theme .progress {
     background-color: #333;
 }

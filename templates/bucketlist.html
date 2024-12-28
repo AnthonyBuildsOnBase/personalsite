@@ -9,30 +9,6 @@
         <p class="lead text-muted">Dreams, aspirations, and achievements through the years</p>
     </header>
 
-    <div class="progress-summary">
-        <div class="progress-circle">
-            <svg viewBox="0 0 36 36" class="circular-chart">
-                <path d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke-width="2.5"
-                    class="circle-bg"/>
-                <path d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke-width="2.5"
-                    class="circle"
-                    id="progress-circle"/>
-            </svg>
-            <div class="percentage" id="total-progress">0%</div>
-        </div>
-        <div class="progress-text">
-            <span id="completed-count">0</span> of <span id="total-count">0</span> goals completed
-        </div>
-    </div>
-
     <div class="bucketlist-container">
         <!-- Past Years Section -->
         {% if organized_years.past %}
@@ -198,9 +174,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize progress tracking
-    updateAllProgress();
-
     // Add intersection observer for animation on scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -239,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             }, 1000);
                         }
                         // Update progress after toggling
-                        updateAllProgress();
+                        updateYearProgress(itemElement.dataset.year);
                     }
                 } catch (error) {
                     console.error('Error toggling item:', error);
@@ -260,42 +233,6 @@ document.addEventListener('DOMContentLoaded', function() {
             progressBar.setAttribute('aria-valuenow', progress);
             progressBar.textContent = `${Math.round(progress)}%`;
         }
-    }
-
-    // Function to update total progress
-    function updateTotalProgress() {
-        const totalItems = document.querySelectorAll('.timeline-item').length;
-        const completedItems = document.querySelectorAll('.timeline-item.completed').length;
-        const progress = (completedItems / totalItems) * 100;
-
-        // Update circular progress
-        const circle = document.getElementById('progress-circle');
-        const circumference = 2 * Math.PI * 15.9155; // Radius from SVG path
-        const offset = circumference - (progress / 100) * circumference;
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        circle.style.strokeDashoffset = offset;
-
-        // Update percentage text
-        document.getElementById('total-progress').textContent = `${Math.round(progress)}%`;
-        document.getElementById('completed-count').textContent = completedItems;
-        document.getElementById('total-count').textContent = totalItems;
-    }
-
-    // Function to update all progress indicators
-    function updateAllProgress() {
-        // Get unique years
-        const years = new Set();
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            years.add(item.dataset.year);
-        });
-
-        // Update progress for each year
-        years.forEach(year => {
-            updateYearProgress(year);
-        });
-
-        // Update total progress
-        updateTotalProgress();
     }
 });
 </script>
