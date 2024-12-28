@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Bucket List{% endblock %}
+
+{% block content %}
+<main class="py-5">
+    <header class="mb-5">
+        <h1 class="display-4">My Bucket List</h1>
+        <p class="lead text-muted">Dreams, aspirations, and achievements</p>
+    </header>
+
+    <div class="bucketlist-container">
+        {% for category, items in categorized_items.items() %}
+        <section class="category-section mb-5">
+            <h2 class="category-title">{{ category or 'Uncategorized' }}</h2>
+            <div class="timeline">
+                {% for item in items %}
+                <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                     data-item-id="{{ item.id }}">
+                    <div class="timeline-marker">
+                        <div class="marker-circle"></div>
+                        <div class="marker-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                        {% if item.completed %}
+                        <div class="completion-date">
+                            Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add intersection observer for animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    // Observe all timeline items
+    document.querySelectorAll('.timeline-item').forEach(item => {
+        observer.observe(item);
+        
+        // Add click handler for completion toggle
+        item.addEventListener('click', async function() {
+            const itemId = this.dataset.itemId;
+            try {
+                const response = await fetch(`/bucketlist/toggle/${itemId}`, {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.classList.toggle('completed');
+                    // Trigger completion animation
+                    if (data.completed) {
+                        this.classList.add('just-completed');
+                        setTimeout(() => {
+                            this.classList.remove('just-completed');
+                        }, 1000);
+                    }
+                }
+            } catch (error) {
+                console.error('Error toggling item:', error);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

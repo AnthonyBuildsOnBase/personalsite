@@ -6,6 +6,8 @@ from flask import Flask, render_template, abort
 import markdown
 from time import mktime
 import yaml
+from database import db
+from models import BucketListItem
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -14,6 +16,15 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.secret_key = "a secret key"  # In production, use environment variable
 
+# Configure the database
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///site.db")
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    "pool_recycle": 300,
+    "pool_pre_ping": True,
+}
+
+# Initialize the app with the extension
+db.init_app(app)
 
 def calculate_reading_time(content):
     """Calculate reading time in minutes based on word count."""
@@ -29,13 +40,11 @@ def load_substack_posts(substack_url):
         posts = []
         for entry in feed.entries[:5]:  # Get latest 5 posts
             posts.append({
-                'title':
-                entry.title,
-                'link':
-                entry.link,
-                'date':
-                datetime.fromtimestamp(mktime(entry.published_parsed))
-                if hasattr(entry, 'published_parsed') else datetime.now(),
+                'title': entry.title,
+                'link': entry.link,
+                'date': datetime.fromtimestamp(
+                    mktime(entry.published_parsed)) if hasattr(
+                        entry, 'published_parsed') else datetime.now(),
             })
         return posts
     except Exception as e:
@@ -78,17 +87,12 @@ def load_posts():
 
                 # Store post data
                 posts[slug] = {
-                    'title':
-                    metadata.get('title', 'Untitled'),
-                    'date':
-                    datetime.strptime(str(metadata.get('date', '2000-01-01')),
-                                      '%Y-%m-%d'),
-                    'tags':
-                    metadata.get('tags', []),
-                    'content':
-                    html_content,
-                    'reading_time':
-                    calculate_reading_time(content)
+                    'title': metadata.get('title', 'Untitled'),
+                    'date': datetime.strptime(
+                        str(metadata.get('date', '2000-01-01')), '%Y-%m-%d'),
+                    'tags': metadata.get('tags', []),
+                    'content': html_content,
+                    'reading_time': calculate_reading_time(content)
                 }
 
     return posts
@@ -116,20 +120,16 @@ def index():
         'index.html',
         name="Anthonyk.base.eth",
         current={
-            "location":
-            "Manhattan, NY",
-            "role":
-            "DeFi Ecosystem Analyst at Base",
+            "location": "Manhattan, NY",
+            "role": "DeFi Ecosystem Analyst at Base",
             "focus":
             "Passionate about political and economic tools that empower individuals to realize the full value of the internet",
             "links": [{
                 "label": "GitHub",
                 "url": "https://github.com/AnthonyBuildsOnBase"
             }, {
-                "label":
-                "LinkedIn",
-                "url":
-                "https://www.linkedin.com/in/anthony-katwan-566675175/"
+                "label": "LinkedIn",
+                "url": "https://www.linkedin.com/in/anthony-katwan-566675175/"
             }, {
                 "label": "Twitter",
                 "url": "https://x.com/0xblockboy"
@@ -178,3 +178,69 @@ def post(slug):
     if not post_data:
         abort(404)
     return render_template('post.html', post=post_data)
+
+
+@app.route('/bucketlist')
+def bucketlist():
+    items = BucketListItem.query.order_by(
+        BucketListItem.priority.desc(),
+        BucketListItem.created_at.desc()
+    ).all()
+
+    # Group items by category
+    categorized_items = {}
+    for item in items:
+        if item.category not in categorized_items:
+            categorized_items[item.category] = []
+        categorized_items[item.category].append(item)
+
+    return render_template(
+        'bucketlist.html',
+        categorized_items=categorized_items,
+        current_date=datetime.now()
+    )
+
+
+@app.route('/bucketlist/toggle/<int:item_id>', methods=['POST'])
+def toggle_item(item_id):
+    item = BucketListItem.query.get_or_404(item_id)
+    item.completed = not item.completed
+    item.completion_date = datetime.utcnow() if item.completed else None
+    db.session.commit()
+    return {'success': True, 'completed': item.completed}
+
+
+def create_sample_bucketlist_items():
+    """Create sample bucket list items if none exist."""
+    if BucketListItem.query.first() is None:
+        items = [
+            {
+                'title': 'Learn to Play Piano',
+                'description': 'Master at least one classical piece',
+                'category': 'Skills',
+                'priority': 2
+            },
+            {
+                'title': 'Visit Northern Lights',
+                'description': 'See the Aurora Borealis in person',
+                'category': 'Travel',
+                'priority': 3
+            },
+            {
+                'title': 'Run a Marathon',
+                'description': 'Complete a full 26.2 mile marathon',
+                'category': 'Fitness',
+                'priority': 1
+            }
+        ]
+
+        for item in items:
+            bucket_item = BucketListItem(**item)
+            db.session.add(bucket_item)
+
+        db.session.commit()
+
+
+with app.app_context():
+    db.create_all()
+    create_sample_bucketlist_items()
