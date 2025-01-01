@@ -35,34 +35,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="timeline">
-                        {% for item in data.items %}
-                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
-                             data-item-id="{{ item.id }}"
-                             data-year="{{ year }}">
-                            <div class="timeline-marker">
-                                <div class="marker-circle"></div>
-                                <div class="marker-line"></div>
-                            </div>
-                            <div class="timeline-content">
-                                <h3>{{ item.title }}</h3>
-                                <p>{{ item.description }}</p>
-                                {% if item.tag_list %}
-                                <div class="tags">
-                                    {% for tag in item.tag_list %}
-                                    <span class="tag">{{ tag }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                                {% if item.completed %}
-                                <div class="completion-date">
-                                    Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
-                                </div>
-                                {% endif %}
-                            </div>
+                    {% for category, items in data.categories.items() %}
+                    <div class="category-section mb-5">
+                        <div class="category-header">
+                            <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
                         </div>
-                        {% endfor %}
+                        <div class="timeline">
+                            {% for item in items %}
+                            <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                                 data-item-id="{{ item.id }}"
+                                 data-year="{{ year }}"
+                                 data-category="{{ category }}">
+                                <div class="timeline-marker">
+                                    <div class="marker-circle"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>{{ item.title }}</h3>
+                                    <p>{{ item.description }}</p>
+                                    {% if item.completed %}
+                                    <div class="completion-date">
+                                        Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
                 {% endfor %}
             </div>
@@ -94,34 +95,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="timeline">
-                        {% for item in data.items %}
-                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
-                             data-item-id="{{ item.id }}"
-                             data-year="{{ year }}">
-                            <div class="timeline-marker">
-                                <div class="marker-circle"></div>
-                                <div class="marker-line"></div>
-                            </div>
-                            <div class="timeline-content">
-                                <h3>{{ item.title }}</h3>
-                                <p>{{ item.description }}</p>
-                                {% if item.tag_list %}
-                                <div class="tags">
-                                    {% for tag in item.tag_list %}
-                                    <span class="tag">{{ tag }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                                {% if item.completed %}
-                                <div class="completion-date">
-                                    Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
-                                </div>
-                                {% endif %}
-                            </div>
+                    {% for category, items in data.categories.items() %}
+                    <div class="category-section mb-5">
+                        <div class="category-header">
+                            <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
                         </div>
-                        {% endfor %}
+                        <div class="timeline">
+                            {% for item in items %}
+                            <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                                 data-item-id="{{ item.id }}"
+                                 data-year="{{ year }}"
+                                 data-category="{{ category }}">
+                                <div class="timeline-marker">
+                                    <div class="marker-circle"></div>
+                                    <div class="marker-line"></div>
+                                </div>
+                                <div class="timeline-content">
+                                    <h3>{{ item.title }}</h3>
+                                    <p>{{ item.description }}</p>
+                                    {% if item.completed %}
+                                    <div class="completion-date">
+                                        Achieved: {{ item.completion_date.strftime('%B %d, %Y') }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
                 {% endfor %}
             </div>
@@ -137,29 +139,30 @@
                 <div class="year-header">
                     <h3 class="year-title">{{ year }}</h3>
                 </div>
-                <div class="timeline">
-                    {% for item in data.items %}
-                    <div class="timeline-item {% if item.completed %}completed{% endif %}"
-                         data-item-id="{{ item.id }}"
-                         data-year="{{ year }}">
-                        <div class="timeline-marker">
-                            <div class="marker-circle"></div>
-                            <div class="marker-line"></div>
-                        </div>
-                        <div class="timeline-content">
-                            <h3>{{ item.title }}</h3>
-                            <p>{{ item.description }}</p>
-                            {% if item.tag_list %}
-                            <div class="tags">
-                                {% for tag in item.tag_list %}
-                                <span class="tag">{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
+                {% for category, items in data.categories.items() %}
+                <div class="category-section mb-5">
+                    <div class="category-header">
+                        <h4 class="category-title">{{ category or 'Uncategorized' }}</h4>
                     </div>
-                    {% endfor %}
+                    <div class="timeline">
+                        {% for item in items %}
+                        <div class="timeline-item {% if item.completed %}completed{% endif %}"
+                             data-item-id="{{ item.id }}"
+                             data-year="{{ year }}"
+                             data-category="{{ category }}">
+                            <div class="timeline-marker">
+                                <div class="marker-circle"></div>
+                                <div class="marker-line"></div>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>{{ item.title }}</h3>
+                                <p>{{ item.description }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
+                {% endfor %}
             </div>
             {% endfor %}
         </div>
@@ -173,13 +176,6 @@
                 <div class="backlog-item">
                     <h3>{{ item.title }}</h3>
                     <p>{{ item.description }}</p>
-                    {% if item.tag_list %}
-                    <div class="tags">
-                        {% for tag in item.tag_list %}
-                        <span class="tag">{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
                 </div>
                 {% endfor %}
             </div>

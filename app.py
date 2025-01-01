@@ -198,16 +198,19 @@ def bucketlist():
         BucketListItem.created_at.desc()
     ).all()
 
-    # Organize items by year
+    # Organize items by year and category
     years_data = {}
     for item in items:
         if item.target_year is None:  # Skip backlog items
             continue
 
         if item.target_year not in years_data:
-            years_data[item.target_year] = {'items': [], 'total': 0, 'completed': 0}
+            years_data[item.target_year] = {'categories': {}, 'total': 0, 'completed': 0}
 
-        years_data[item.target_year]['items'].append(item)
+        if item.category not in years_data[item.target_year]['categories']:
+            years_data[item.target_year]['categories'][item.category] = []
+
+        years_data[item.target_year]['categories'][item.category].append(item)
         years_data[item.target_year]['total'] += 1
         if item.completed:
             years_data[item.target_year]['completed'] += 1
@@ -245,35 +248,35 @@ def create_sample_bucketlist_items():
             {
                 'title': 'Learn to Play Piano',
                 'description': 'Master at least one classical piece',
-                'tags': 'music, learning, arts',
+                'category': 'Skills',
                 'priority': 2,
                 'target_year': current_year
             },
             {
                 'title': 'Visit Northern Lights',
                 'description': 'See the Aurora Borealis in person',
-                'tags': 'travel, adventure, nature',
+                'category': 'Travel',
                 'priority': 3,
                 'target_year': current_year + 1
             },
             {
                 'title': 'Run a Marathon',
                 'description': 'Complete a full 26.2 mile marathon',
-                'tags': 'fitness, sports, health',
+                'category': 'Fitness',
                 'priority': 1,
                 'target_year': current_year
             },
             {
                 'title': 'Write a Book',
                 'description': 'Complete and publish a novel',
-                'tags': 'writing, creative, personal',
+                'category': 'Creative',
                 'priority': 2,
                 'target_year': current_year + 2
             },
             {
                 'title': 'Learn Photography',
                 'description': 'Master manual camera settings',
-                'tags': 'photography, arts, learning',
+                'category': 'Skills',
                 'priority': 1,
                 'target_year': current_year - 1,
                 'completed': True,
@@ -286,6 +289,7 @@ def create_sample_bucketlist_items():
             db.session.add(bucket_item)
 
         db.session.commit()
+
 
 with app.app_context():
     db.create_all()
