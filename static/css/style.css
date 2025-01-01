@@ -221,6 +221,7 @@ footer {
 @media (max-width: 768px) {
     body {
         font-size: 16px;
+        text-align: center;
     }
 
     h1 {
@@ -229,7 +230,72 @@ footer {
 
     .container {
         padding: 1rem;
-        margin: 1rem;
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+        max-width: none;
+    }
+
+    .theme-toggle {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .social-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .timeline-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .timeline-marker {
+        margin-bottom: 1rem;
+    }
+
+    .marker-line {
+        display: none;
+    }
+
+    .timeline-content {
+        width: 100%;
+    }
+
+    .year-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .year-progress {
+        width: 100%;
+        max-width: none;
+    }
+
+    .category-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .category-progress {
+        width: 100%;
+        max-width: none;
+    }
+
+    .backlog-item {
+        text-align: center;
+    }
+
+    .collapsible-header {
+        justify-content: center;
+    }
+
+    .time-section-title {
+        text-align: center;
     }
 }
 
@@ -483,8 +549,6 @@ footer {
 .future-section {
     border-left: 4px solid #6c757d;
 }
-
-/* Add to the existing CSS */
 
 /* Collapsible section styles */
 .collapsible-section {
