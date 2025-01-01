@@ -164,6 +164,7 @@ def index():
                 • <a href="https://www.jofreeman.com/joreen/tyranny.htm">The Tyranny of Structurelessness</a>
                 • <a href="https://nickbostrom.com/fable/dragon">The Fable of the Dragon-Tyrant</a>
                 • <a href="https://meaningness.com/geeks-mops-sociopaths">Geeks, MOPs, and sociopaths in subculture evolution</a>
+                • <a href="https://www.usv.com/writing/2016/08/fat-protocols/">Fat Protocols</a>
                 """
         }, {
             "title": "My Writings",
